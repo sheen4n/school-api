@@ -1,0 +1,5 @@
+{
+  "requiresAuth": false,
+  "nodeEnv": "development",
+  "port": 3000
+}

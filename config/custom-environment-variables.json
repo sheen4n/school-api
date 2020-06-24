@@ -1,0 +1,4 @@
+{
+  "nodeEnv": "NODE_ENV",
+  "port": "SCHOOL_API_PORT"
+}
