@@ -40,6 +40,19 @@ describe('/api/register', () => {
         .expect(400);
     });
 
+    it('should return 400 if email is repeated in student list', async () => {
+      const teacherEmail = 'teacherken@gmail.com';
+      const studentEmailOne = 'studentjon@example.com';
+
+      await request(server)
+        .post('/api/register')
+        .send({
+          teacher: teacherEmail,
+          students: [studentEmailOne, studentEmailOne],
+        })
+        .expect(400);
+    });
+
     it('should create a teacher and students for a valid request if the teacher not existing in db', async () => {
       const teacherEmail = 'teacherken@gmail.com';
       const studentEmailOne = 'studentjon@example.com';
