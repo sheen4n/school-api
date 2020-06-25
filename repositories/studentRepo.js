@@ -1,6 +1,14 @@
 const db = require('../models');
 const Student = db.Student;
 
+const createStudent = async (email, transaction = null) =>
+  Student.create(
+    {
+      email,
+    },
+    { transaction },
+  );
+
 const findStudentByEmail = async (email, transaction = null) =>
   Student.findOne(
     {
@@ -10,15 +18,11 @@ const findStudentByEmail = async (email, transaction = null) =>
     { transaction },
   );
 
-const createStudent = async (email, transaction = null) =>
-  Student.create(
-    {
-      email,
-    },
-    { transaction },
-  );
+const suspendStudentByEmail = async (email) =>
+  Student.update({ suspended: true }, { where: { email } });
 
 module.exports = {
   createStudent,
   findStudentByEmail,
+  suspendStudentByEmail,
 };

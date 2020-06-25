@@ -8,8 +8,9 @@ function validate(model) {
     teacher: Joi.string().email().required(),
     students: Joi.array().min(1).unique().items(Joi.string().email()).required(),
   });
+  const options = { errors: { wrap: { label: '' } } };
 
-  return schema.validate(model);
+  return schema.validate(model, options);
 }
 
 router.post('/', async (req, res) => {

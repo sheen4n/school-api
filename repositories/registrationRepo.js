@@ -18,12 +18,10 @@ const register = async (teacher, students) => {
     // Search For Student and Create If Not Exist
     const studentsInDb = await Promise.all(
       students.map(async (student) => {
-        let studentInDb = await studentRepo.findStudentByEmail(student, t);
-        if (!studentInDb) {
-          const studentResult = await studentRepo.createStudent(student, t);
-          studentInDb = studentResult.toJSON();
-        }
-        return studentInDb;
+        const studentInDb = await studentRepo.findStudentByEmail(student, t);
+        if (studentInDb) return studentInDb;
+        const studentResult = await studentRepo.createStudent(student, t);
+        return studentResult.toJSON();
       }),
     );
 
@@ -53,8 +51,8 @@ const register = async (teacher, students) => {
   } catch (error) {
     // If the execution reaches this line, an error was thrown.
     // We rollback the transaction.
-    console.log(error.message);
     await t.rollback();
+    throw new Error(error.message);
   }
 };
 

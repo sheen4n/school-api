@@ -13,8 +13,9 @@ function validate(model) {
       .required()
       .label('Teachers Emails'),
   });
+  const options = { errors: { wrap: { label: '' } } };
 
-  return schema.validate(model);
+  return schema.validate(model, options);
 }
 
 router.get('/', async (req, res) => {
@@ -24,7 +25,7 @@ router.get('/', async (req, res) => {
   if (error) return res.status(400).send({ message: error.details[0].message });
 
   const result = await commonStudentsRepo.getCommonStudents(teachersArray);
-  res.status(200).send({ students: result });
+  res.send({ students: result });
 });
 
 module.exports = router;
