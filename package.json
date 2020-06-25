@@ -16,7 +16,6 @@
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "compression": "^1.7.4",
-    "config": "^3.3.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
@@ -28,9 +27,10 @@
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {
+    "dotenv": "^8.2.0",
     "jest": "^26.1.0",
     "sequelize-cli": "^5.5.1",
-    "supertest": "^4.0.2",
-    "sqlite3": "^4.2.0"
+    "sqlite3": "^4.2.0",
+    "supertest": "^4.0.2"
   }
 }

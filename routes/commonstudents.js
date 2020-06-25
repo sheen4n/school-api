@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Joi = require('@hapi/joi');
-const { convertToArray } = require('../utils/transformUtility');
 const commonStudentsRepo = require('../repositories/commonStudentsRepo');
 
 function validate(model) {
@@ -11,7 +10,7 @@ function validate(model) {
       .unique()
       .items(Joi.string().email())
       .required()
-      .label('Teachers Emails'),
+      .label('Teachers EmailS'),
   });
   const options = { errors: { wrap: { label: '' } } };
 
@@ -19,8 +18,14 @@ function validate(model) {
 }
 
 router.get('/', async (req, res) => {
-  const { teacher } = req.query;
-  const teachersArray = teacher ? convertToArray(teacher) : undefined;
+  const query = req.originalUrl.split(`${req.baseUrl}?`)[1];
+  if (!query) return res.status(400).send({ message: 'Teacher Email is Required' });
+  const queryArray = query.split('&');
+  const teachersArray = queryArray
+    .filter((item) => item.startsWith('teacher='))
+    .map((item) => item.slice('teacher='.length))
+    .map((item) => decodeURIComponent(item));
+
   const { error } = validate({ teachers: teachersArray });
   if (error) return res.status(400).send({ message: error.details[0].message });
 
