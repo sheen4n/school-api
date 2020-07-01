@@ -4,9 +4,16 @@ const studentRepo = require('./studentRepo');
 const Registration = db.Registration;
 
 const register = async (teacher, students) => {
+  let t;
+
+  try {
+    t = await db.sequelize.transaction();
+  } catch (error) {
+    throw new Error(error.message);
+  }
+
   try {
     // Initialize Transaction - Either All Or Nothing Gets Committed
-    const t = await db.sequelize.transaction();
 
     // Search For Teacher and Create If Not Exist
     let teacherInDb = await teacherRepo.findTeacherByEmail(teacher, t);
